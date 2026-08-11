@@ -1,0 +1,16 @@
+Tinos
+Copyright (c) Steve Matteson
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+these font files except in compliance with the License. A copy of the License is
+distributed alongside this file as LICENSE.txt, and may also be obtained at:
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Tinos is metrically compatible with Times New Roman. It is bundled here only as a
+fallback for platforms that ship neither Times New Roman nor Liberation Serif —
+in practice, Android. Browsers on macOS and Windows resolve Times New Roman
+locally and never request these files.
+
+Subsets: latin, latin-ext. Weights: 400, 700. Styles: normal, italic.
+Source: Google Fonts (https://fonts.google.com/specimen/Tinos), v26.

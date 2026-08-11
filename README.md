@@ -68,6 +68,42 @@ Delete that rule if the mark should stretch with everything else.
 Printing reverts to unstretched Times, where transform support across print
 engines is still uneven.
 
+### The font stack
+
+```
+"Times New Roman", Times, "Liberation Serif", "Nimbus Roman", Tinos, serif
+```
+
+Every entry is metrically compatible with Times New Roman — identical advance
+widths — so line breaks and the stretch land the same on every platform. macOS
+and Windows resolve Times New Roman locally; Linux resolves Liberation Serif or
+Nimbus Roman locally. None of them download anything.
+
+Tinos (`app/fonts.css`, `public/fonts/`) is a self-hosted last resort for
+platforms that ship none of the above — in practice Android, which would
+otherwise fall back to Noto Serif at **1.179×** the width of Times, compounding
+with the 15% stretch to roughly 1.36× the intended measure. A `@font-face`
+webfont is only fetched when it is actually selected to render something, so on
+a machine that has Times the font directory is never touched. Verified: a cold
+load of `/tools` on macOS requests zero font files and transfers 15KB total.
+
+Tinos is Apache 2.0 (Steve Matteson). Licence and attribution live in
+`public/fonts/LICENSE.txt` and `public/fonts/NOTICE.txt`; keep them if the fonts
+stay.
+
+### The mark
+
+`public/mark.svg` is the source of truth, drawn at 44×44 with a 0.44 stroke, and
+is what the pages render at 22px. `app/icon.png` (32×32) and `app/apple-icon.png`
+(180×180) are generated from it. The favicon uses a **thickened 1.0 stroke** —
+at 32px the true hairline scales to 0.32px and washes out to near-invisible.
+That is an optical adjustment for small sizes only; the on-page mark and the
+Apple icon both use the drawn weight. Regenerate with ImageMagick:
+
+```bash
+convert -background none -density 1200 public/mark.svg -resize 132x132 -background white -alpha remove -alpha off -gravity center -extent 180x180 -strip app/apple-icon.png
+```
+
 ## Local development
 
 ```bash

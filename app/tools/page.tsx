@@ -35,7 +35,7 @@ export default async function ToolsPage({
     <main>
       <header className="masthead">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="masthead__mark" src="/mark.png" alt="" width={22} height={22} />
+        <img className="masthead__mark" src="/mark.svg" alt="" width={22} height={22} />
         <h1>Tools</h1>
       </header>
 

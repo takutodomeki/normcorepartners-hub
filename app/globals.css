@@ -10,9 +10,12 @@
   /* Horizontal stretch applied to all page content. See ".stretch" below. */
   --stretch: 1.15;
 
-  /* Times New Roman where it exists; Liberation Serif is metrically identical
-     on Linux; Tinos matches on Android/ChromeOS where either is installed. */
-  --serif: "Times New Roman", Times, "Liberation Serif", Tinos, "Nimbus Roman",
+  /* All four are metrically identical to Times New Roman, so the line breaks
+     and the 15% stretch land the same on every platform. Times New Roman on
+     macOS and Windows, Liberation Serif on Linux, both resolved locally. Tinos
+     is the self-hosted fallback and is only downloaded where neither exists —
+     in practice Android. See app/fonts.css. */
+  --serif: "Times New Roman", Times, "Liberation Serif", "Nimbus Roman", Tinos,
     serif;
 
   --gutter: 1.5rem;

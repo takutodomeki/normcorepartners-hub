@@ -1,0 +1,22 @@
+[
+  {
+    "id": "dispatch",
+    "name": "Dispatch",
+    "sentence": "See every press release a campaign has put out, in one place, in order.",
+    "url": "https://dispatch.normcorepartners.net",
+    "status": "live",
+    "launched": "2026-08-01",
+    "lastChecked": "2026-08-01"
+  },
+  {
+    "id": "example-with-everything",
+    "name": "Example With Every Field",
+    "sentence": "Shows what an entry looks like when the two optional fields are used.",
+    "url": "https://example.normcorepartners.net",
+    "status": "beta",
+    "launched": "2026-01-15",
+    "lastChecked": "2026-02-01",
+    "notes": "https://normcorepartners.net/writing/example",
+    "retireBy": "2026-11-04"
+  }
+]

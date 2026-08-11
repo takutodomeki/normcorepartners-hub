@@ -1,0 +1,281 @@
+/* ==========================================================================
+   Normcore Partners — hub
+   One typeface, one scale, two colours.
+   ========================================================================== */
+
+:root {
+  --paper: #f0f7ff;
+  --ink: #000000;
+
+  /* Horizontal stretch applied to all page content. See ".stretch" below. */
+  --stretch: 1.15;
+
+  /* Times New Roman where it exists; Liberation Serif is metrically identical
+     on Linux; Tinos matches on Android/ChromeOS where either is installed. */
+  --serif: "Times New Roman", Times, "Liberation Serif", Tinos, "Nimbus Roman",
+    serif;
+
+  --gutter: 1.5rem;
+  --measure: 34rem;
+}
+
+@media (min-width: 40rem) {
+  :root {
+    --gutter: 2.5rem;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Stop iOS Safari inflating text inside the transformed container. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background: var(--paper);
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.0625rem;
+  line-height: 1.45;
+  /* `clip` does not create a scroll container, so it cannot break sticky
+     positioning the way `hidden` would. `hidden` is the pre-2022 fallback. */
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+@media (min-width: 40rem) {
+  body {
+    font-size: 1.125rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   The stretch
+
+   Times New Roman has no expanded width axis, so `font-stretch` is inert on it.
+   Instead the content box is authored at 1/1.15 of the available width and then
+   scaled back out to exactly 100%. Every glyph ends up 15% wider at unchanged
+   height, and because the scaled width resolves to exactly the parent width
+   there is no overflow and no horizontal scrollbar.
+
+   Deliberate constraints that keep this well-behaved on other machines:
+
+   - Applied ONCE, on ".stretch". Nesting two would compound to 1.32.
+   - No `will-change: transform` / `translateZ(0)`. Promoting this to its own
+     compositor layer is what makes scaled text render blurry; without it every
+     engine rasterises glyphs after the transform, so text stays crisp on both
+     retina and 1x displays.
+   - Page gutters live on ".page", OUTSIDE the transform, so margins stay true
+     at their authored size. Only content is stretched.
+   - No `position: fixed` descendants — a transform makes this element their
+     containing block, which would silently break them.
+   - Horizontal rules are unaffected in thickness: scaleX changes their length,
+     not their 1px height.
+   - Reverts to unstretched Times when printing, where transform support across
+     print engines is still uneven.
+   -------------------------------------------------------------------------- */
+
+.page {
+  max-width: calc(var(--measure) + var(--gutter) * 2);
+  margin: 0 auto;
+  padding: 4rem var(--gutter) 5rem;
+}
+
+.stretch {
+  width: calc(100% / var(--stretch));
+  transform: scaleX(var(--stretch));
+  transform-origin: left top;
+}
+
+@media print {
+  .stretch {
+    width: 100%;
+    transform: none;
+  }
+
+  body {
+    background: #fff;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Type
+   -------------------------------------------------------------------------- */
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol {
+  margin: 0;
+  font-weight: normal;
+}
+
+h1 {
+  font-size: 1.0625rem;
+  line-height: 1.45;
+}
+
+h2 {
+  font-size: 1rem;
+  font-style: italic;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.masthead {
+  margin-bottom: 3.5rem;
+}
+
+.masthead__mark {
+  display: block;
+  width: 22px;
+  height: 22px;
+  margin-bottom: 1.25rem;
+  /* The mark is artwork, not type. Undo the page stretch so the globe stays a
+     circle. Delete this rule if it should be stretched with everything else. */
+  transform: scaleX(calc(1 / var(--stretch)));
+  transform-origin: left center;
+}
+
+.lede {
+  max-width: 26em;
+}
+
+.nav {
+  margin-top: 2rem;
+}
+
+.colophon {
+  margin-top: 5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--ink);
+  font-size: 0.875rem;
+}
+
+.colophon p + p {
+  margin-top: 0.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   Tools index
+   -------------------------------------------------------------------------- */
+
+.group {
+  margin-top: 3rem;
+}
+
+.group__heading {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--ink);
+  font-size: 0.875rem;
+  font-style: normal;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Archived and broken stay listed, but read as subordinate. */
+.group--subordinate {
+  opacity: 0.55;
+}
+
+.tools {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tool {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+.tool__name {
+  font-size: 1.0625rem;
+}
+
+.tool__sentence {
+  max-width: 30em;
+  margin-top: 0.35rem;
+}
+
+.tool__meta {
+  margin-top: 0.6rem;
+  font-size: 0.875rem;
+}
+
+.tool__meta > * + *::before {
+  content: "·";
+  margin: 0 0.5em;
+}
+
+.tool__flag {
+  margin-top: 0.6rem;
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+.empty {
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   Audit view (/tools?audit)
+   -------------------------------------------------------------------------- */
+
+.audit-banner {
+  margin-bottom: 2rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  font-size: 0.875rem;
+}
+
+.audit {
+  margin-top: 0.6rem;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.audit dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.15rem 1rem;
+  margin: 0;
+}
+
+.audit dt {
+  font-style: italic;
+}
+
+.audit dd {
+  margin: 0;
+}
+
+.audit--overdue {
+  font-weight: bold;
+}
